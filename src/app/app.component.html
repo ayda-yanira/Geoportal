@@ -1,0 +1,66 @@
+<div class="container">
+  <app-header></app-header>
+  <div style="position: relative">
+    <div
+      class="menu-basico"
+      style="position: absolute; z-index: 1; top: 20px; right: 30px"
+    >
+      <p-button
+        [style]="{ padding: '0.3rem' }"
+        class="p-mr-2"
+        (click)="onClickHelp()"
+        pTooltip="Ayuda"
+      >
+        <ng-template pTemplate="content">
+          <img
+            alt="logo"
+            class="boton-certificado"
+            src="assets/images/logo_ayuda.png"
+            style="width: 1.5rem"
+          />
+        </ng-template>
+      </p-button>
+      <p-button
+        [style]="{ padding: '0.3rem' }"
+        class="p-mr-2"
+        (click)="onClickCertificados()"
+        pTooltip="Trámites"
+      >
+        <ng-template pTemplate="content">
+          <img
+            alt="logo"
+            class="boton-certificado"
+            src="assets/images/certificados.png"
+            style="width: 1.5rem"
+          />
+        </ng-template>
+      </p-button>
+      <button
+        #btn
+        pButton
+        type="button"
+        pTooltip="Menú Principal"
+        icon="pi pi-bars"
+        (click)="menu.toggle($event)"
+      ></button>
+    </div>
+  </div>
+  <div class="p-col-12" style="padding: 0.1em">
+    <app-esri-map></app-esri-map>
+  </div>
+</div>
+
+<p-tieredMenu #menu [model]="itemsMenu" [popup]="true"></p-tieredMenu>
+
+<p-dialog
+  [resizable]="true"
+  [style]="{ 'max-height': '450px', 'max-width': '400px' }"
+  position="right"
+  [header]="modalTitle"
+  (onHide)="modalClose()"
+  [(visible)]="showModal"
+>
+  <div class="p-m-0">
+    <router-outlet></router-outlet>
+  </div>
+</p-dialog>

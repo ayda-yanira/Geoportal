@@ -1,0 +1,15 @@
+.eds-header {
+    height: 60px;
+    /* margin: 30px 0; */
+}
+
+.container_table {
+    height: 97%;
+    width: 98%;
+    position: fixed;
+    z-index: 1;
+}
+
+.container {
+    overflow: hidden;
+}

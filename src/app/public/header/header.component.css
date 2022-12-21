@@ -1,0 +1,118 @@
+h1 {
+    font-size: 1.4em;
+    margin: 5px;
+    /* text-decoration: underline; */
+}
+
+.header {
+    background-color: #3b76fb;
+    padding-top: 5px;
+    display: flex;
+    height: 52px !important;
+}
+
+.header img {
+    max-height: 33px;
+}
+
+.header img2 {
+    max-height: 52px;
+}
+
+@media (max-width: 1133px) {
+    .header .p-col-10 h1 {
+        font-size: 12px !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .header {
+        justify-content: space-evenly;
+    }
+}
+
+@media (max-width: 894px) {
+    .header {
+        justify-content: space-evenly;
+    }
+    .header {
+        height: 150px !important;
+    }
+}
+
+@media (max-width: 1038px) {
+    .p-grid .header .p-lg-5 .responsive img {
+        width: 100px;
+    }
+    .button-menu {
+        display: inherit !important;
+    }
+    .items {
+        display: none;
+    }
+    .header .p-col-10 h1 {
+        font-size: 15px !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+@media (max-width: 991px) {
+    .header {
+        height: 150px !important;
+    }
+    .imgs {
+        display: flex;
+        justify-content: center !important;
+    }
+}
+
+@media (max-width: 390px) {
+    .header .p-col-5 h1 {
+        font-size: 12px !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+@media (max-width: 378px) {
+    .header {
+        height: 52px !important;
+    }
+    .imgs {
+        display: contents !important;
+    }
+}
+
+.header h1 {
+    font-size: 23px !important;
+    text-overflow: ellipsis;
+    color: black;
+    line-height: 45px;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.header h2 {
+    font-size: 20px !important;
+    text-overflow: ellipsis;
+    color: black;
+    margin-top: 8px;
+    margin-bottom: 2px;
+}
+
+.items {
+    text-align: right;
+    justify-content: center;
+    align-items: center
+}
+
+.imgs {
+    display: flex;
+    justify-content: start;
+}
+
+.button-menu {
+    background-color: #3b76fb;
+    display: none;
+    justify-content: flex-end;
+}

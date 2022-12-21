@@ -1,0 +1,22 @@
+/* import the required JSAPI css */
+
+@import 'https://js.arcgis.com/4.10/esri/css/main.css';
+.esri-view {
+  height: 90vh;
+}
+
+#infoDiv {
+  position: absolute;
+  z-index: 1;
+  top: 15px;
+  left: 60px;
+}
+
+.customTooltip {
+  color: #4a4a4a;
+  font-size: 18px;
+}
+
+.customTooltip .introjs-tooltip-title {
+  color: #0a41c9;
+}

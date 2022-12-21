@@ -1,0 +1,12 @@
+select {
+  width: 100%;
+}
+
+h5 {
+  color: #3b76fb;
+}
+p {
+  margin: 5px;
+  font-size: 1em;
+  /* font-weight: 500; */
+}

@@ -1,0 +1,48 @@
+<div #layersNode>
+  <div style="margin-top: 40px">
+    <p-fieldset legend="Seleccione una herramienta">
+      <div class="p-grid">
+        <div class="p-col">
+          <p-button
+            id="btnDistance"
+            icon="pi pi-minus"
+            iconPos="left"
+            (onClick)="onDistanceClick()"
+            pTooltip="Calcular Distancia"
+          ></p-button>
+        </div>
+        <div class="p-col">
+          <p-button
+            pTooltip="Calcular Area"
+            icon="pi pi-folder"
+            iconPos="left"
+            (onClick)="onAreaClick()"
+          ></p-button>
+        </div>
+        <div class="p-col">
+          <p-button
+            styleClass="p-button-secondary"
+            pTooltip="Limpiar"
+            icon="pi pi-trash"
+            iconPos="left"
+            (onClick)="onClearClick()"
+          ></p-button>
+        </div>
+      </div>
+    </p-fieldset>
+
+    <div *ngIf="this.state == 'measured'" style="width: 100%">
+      <h5>Seleccione una unidad de medida:</h5>
+      <p-dropdown
+        [style]="{ width: '100%' }"
+        appendTo="body"
+        [options]="units"
+        (onChange)="lengthUnitsChange($event)"
+        [formControl]="unitForm"
+        optionLabel="name"
+        placeholder="-- Seleccione --"
+      >
+      </p-dropdown>
+    </div>
+  </div>
+</div>

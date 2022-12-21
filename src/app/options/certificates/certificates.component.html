@@ -1,0 +1,108 @@
+<p-toast position="center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+  <ng-template let-message pTemplate="message">
+    <div class="p-flex p-flex-column" style="flex: 1">
+      <div class="p-text-center">
+        <h4>{{ message.summary }}</h4>
+        <div class="p-text-center" [innerHTML]="message.detail"></div>
+      </div>
+      <div class="grid p-fluid">
+        <div class="col-6">
+          <button type="button" pButton (click)="onReject()" label="Cerrar" class="p-button-secondary"></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>
+
+<div class="spinner-background" *ngIf="loading">
+  <div class="p-col-12" style="display: flex; justify-content: center; height: 100%">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</div>
+
+<form [formGroup]="conceptForm">
+  <div class="p-grid">
+    <h5>Tipo de Trámite</h5>
+  </div>
+
+  <div class="p-fluid" style="margin-top: 5px">
+    <div class="p-grid">
+      <div class="p-col">
+        <p-dropdown [options]="certificadosItems" formControlName="procedureType" optionLabel="name"
+          placeholder="-- Seleccione --" (onChange)="changeProcedureType($event)" required="true"></p-dropdown>
+      </div>
+    </div>
+
+    <div *ngIf="
+        procedureType.errors &&
+        isValidFormSubmitted != null &&
+        !isValidFormSubmitted
+      " [ngClass]="'error'">
+      <div *ngIf="procedureType.errors.required">
+        Tipo de Trámite obligatorio.
+      </div>
+    </div>
+
+    <div class="p-grid">
+      <h5>Número Predial:</h5>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-3">
+        <input id="txtPref" type="text" pInputText formControlName="pre" numbersOnly disabled="true" />
+      </div>
+      <div class="p-col-9">
+        <input id="txtCode" type="text" pInputText formControlName="preCode" minlength="15" maxlength="30"
+          numbersOnly />
+      </div>
+    </div>
+
+    <div *ngIf="
+        preCode.errors && isValidFormSubmitted != null && !isValidFormSubmitted
+      " [ngClass]="'error'">
+      <div *ngIf="preCode.errors.required">Número Predial obligatorio.</div>
+      <div *ngIf="preCode.errors.minlength">
+        Revise que su número predial sea exactamente igual al registrado en el recibo predial expedido por la Alcaldía
+        Municipal. Recuerde que solo debe digitar los quince (15) números del código predial sin espacios( - ) y sin los
+        cinco primeros números.
+      </div>
+      <div *ngIf="preCode.errors.maxlength">
+        Número Predial máximo 15 digitos.
+      </div>
+    </div>
+
+    <div class="p-grid" *ngIf="showCIIU">
+      <div class="p-col">
+        <h5>Código CIIU:</h5>
+        <p-autoComplete [(ngModel)]="ciuu" formControlName="codCiiu" [showEmptyMessage]="true"
+          [suggestions]="filteredCiiu" (completeMethod)="filterCiiu($event)" field="codigo"
+          [dropdown]="true" placeholder="Seleccione una opción" [minLength]="1">
+          <ng-template let-ciuu pTemplate="item">
+            <div style="width: 300px;">{{ciuu.codigo}}</div>
+          </ng-template>
+        </p-autoComplete>
+
+        <!-- <input
+          id="txtCiiu"
+          type="text"
+          pInputText
+          [(ngModel)]="ciuu"
+          (focus)="onFocus()"
+          numbersOnly
+        /> -->
+      </div>
+    </div>
+
+
+
+    <div class="p-d-flex p-flex-column p-flex-md-row" style="margin-top: 20px">
+      <div class="p-mb-2 p-mr-2">
+        <p-button label="Consultar" icon="pi pi-filter" iconPos="left" (onClick)="onSearchClick()"></p-button>
+      </div>
+      <div class="p-mb-2 p-mr-2">
+        <p-button label="Descargar" icon="pi pi-cloud-download" iconPos="left"
+          [disabled]="currentFeatures === null" (onClick)="onDownloadClick()"></p-button>
+      </div>
+    </div>
+  </div>
+</form>
