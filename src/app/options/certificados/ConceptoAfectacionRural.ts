@@ -430,10 +430,9 @@ export class ConceptoAfectacionRural {
     doc.text(lines, lMargin, this.row, { maxWidth: 185, align: 'justify' });
 
     let restriccion = 'NO TIENE RESTRICCIÓN POR ESTE CONCEPTO.';
-    if (riesgoVolcanico.toUpperCase().indexOf('MEDIO') > -1 ||
-      riesgoVolcanico.toUpperCase().indexOf('ALTO') > -1 ||
-      subsidencia.toUpperCase().indexOf('MEDIO') > -1 ||
-      subsidencia.toUpperCase().indexOf('ALTO') > -1) {
+    if (riesgoVolcanico.toUpperCase().indexOf('ALTO') > -1 ||
+      remocionMasa.toUpperCase().indexOf('MEDIO') > -1 ||
+      remocionMasa.toUpperCase().indexOf('ALTO') > -1) {
       restriccion = 'TIENE RESTRICCIÓN POR ESTE CONCEPTO.';
     }
 

@@ -31,6 +31,7 @@ export class SueloUrbano {
   public compatibilidadCiiu = [];
   public restriccionesActividades = [];
   public criterios = [];
+  public criteriosPEMP = [];
 
   constructor(main: any) {
     this.main = main;
@@ -273,6 +274,13 @@ export class SueloUrbano {
       this.row += 7;
     }
 
+    if (this.main.currentFeatures[0].attributes.codigo_morfologico_de_alturas == "Alturas reguladas en el PEMP Centro Historico"){
+      for (const criterio of this.criteriosPEMP) {
+        this.addTextoJustificado(doc, this.row, criterio);
+        this.row += 7;
+      }
+    }
+
     this.row += 5;
     this.addTextoJustificado(doc, this.row, "Con base en lo anterior, la actividad económica con código CIIU");
     this.row += 3;
@@ -327,7 +335,15 @@ export class SueloUrbano {
 
       doc.setFontSize(9);
       doc.setFont(undefined, 'bold');
-      doc.text(`${item.compatibilidad.toUpperCase()}`, doc.internal.pageSize.width / 2, this.row, { align: 'center' });
+
+      let compatibilidad = item.compatibilidad;
+      if(compatibilidad != null){
+        doc.text(`${item.compatibilidad.toUpperCase()}`, doc.internal.pageSize.width / 2, this.row, { align: 'center' });
+      }
+      else{
+        doc.text(`-`, doc.internal.pageSize.width / 2, this.row, { align: 'center' });
+      }
+            
       this.row += 8;
     } //010200670001000
 

@@ -590,7 +590,7 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
 
     const queryParamas = new Query();
     queryParamas.returnGeometry = false;
-    queryParamas.outFields = ['area_actividad'];
+    queryParamas.outFields = ['area_actividad', 'clasificacion'];
     queryParamas.returnDistinctValues = true;
     queryParamas.where = consulta;
     queryParamas.outSpatialReference = this.mapService.getViewMap().spatialReference;
@@ -603,8 +603,10 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
           console.log(results.features);
 
           const criterios = [];
+          const criteriosPEMP = [];
           for (const feature of results.features) {
             criterios.push(`${feature.attributes.area_actividad}`);
+            criteriosPEMP.push(`${feature.attributes.clasificacion}`);
           }
 
           const uniqueIds = [];
@@ -623,9 +625,30 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
 
           this.sueloUrbano.criterios = uniqueCriterios;
 
+          const uniqueCriteriosPEMP = criteriosPEMP.filter(element => {
+            const isDuplicate = uniqueIds.includes(element);
+
+            if (!isDuplicate) {
+              if (element != 'No aplica') {
+                uniqueIds.push(element);
+                return true;
+              }
+            }
+
+            return false;
+          });
+
+          this.sueloUrbano.criteriosPEMP = uniqueCriteriosPEMP;
+
           let elementos = '';
           for (const criterio of uniqueCriterios) {
             elementos += `TIPO_ACTIVIDAD like '${criterio}%' or `
+          }
+
+          if (this.currentFeatures[0].attributes.codigo_morfologico_de_alturas == "Alturas reguladas en el PEMP Centro Historico"){
+            for (const criterio of uniqueCriteriosPEMP) {
+              elementos += `TIPO_ACTIVIDAD like '${criterio}%' or `
+            }
           }
 
           elementos += `TIPO_ACTIVIDAD like '1-1'`
