@@ -31,7 +31,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   providers: [MessageService],
 })
 export class CertificatesComponent implements AfterViewInit, OnDestroy {
-  SUBSECREATRIO_NOMBRE = 'DIEGO PAUL MARTÍNEZ ERASO';
+  SUBSECREATRIO_NOMBRE = environment.SUBSECREATRIO_NOMBRE;
 
   isValidFormSubmitted = null;
   loading: boolean;

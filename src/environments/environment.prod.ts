@@ -30,11 +30,13 @@ export const environment = {
   NOTA_USO_URBANA_SERVICE: 'https://geoportal.pasto.gov.co/server/rest/services/Planeacion/Norma_Urbanistica_Riesgo_Suelo/MapServer/18',
   TIPO_EQUIPAMIENTOS: 'https://geoportal.pasto.gov.co/server/rest/services/Planeacion/Norma_Urbanistica_Riesgo_Suelo/MapServer/7',
   AREA_ACTIVIDAD_URBANA_SERVICE: 'https://geoportal.pasto.gov.co/server/rest/services/Planeacion/Norma_Urbanistica_Riesgo_Suelo/MapServer/28',
-  LINK_NORMA_URBANISTICA: 'https://docs.google.com/forms/d/e/1FAIpQLSchK2uQvCTo7yZQen4vyWBiuMzfp9rW-ekuwmGn47SEO5c8jA/viewform',
-  LINK_USO_SUELO: 'https://docs.google.com/forms/d/e/1FAIpQLSdB6xmzLJOaI6q8kIl-_KkMyrr_9yQ54MXw_IWgLv2PK5hGoQ/viewform',
-  LINK_RIEGOS_RESTRICCIONES: 'https://docs.google.com/forms/d/e/1FAIpQLSdzQUHkhFECZ9u8LiaJFi_x9WJTMg4vjpaoYJYCVNh9pC2x3Q/viewform',
+  LINK_NORMA_URBANISTICA: 'https://planeacion.pasto.gov.co:8989/solicitudes_urbanistica/createUrbanistica',
+  LINK_USO_SUELO: 'https://planeacion.pasto.gov.co:8989/solicitudes_usosuelo/createUsosuelo',
+  LINK_RIEGOS_RESTRICCIONES: 'https://planeacion.pasto.gov.co:8989/solicitudes_riesgos/createRiesgos',
 
   SERVICIO_IMPRESION: 'https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task',
   PORTAL_URL: 'https://gis.siatac.co/portal/sharing/rest',
   HOSTED_SERVER: 'https://www.arcgis.com/sharing/rest',
+
+  SUBSECREATRIO_NOMBRE: 'DIEGO PAUL MARTÍNEZ ERASO'
 };

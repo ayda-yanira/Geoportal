@@ -37,4 +37,6 @@ export const environment = {
   SERVICIO_IMPRESION: 'https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task',
   PORTAL_URL: 'https://gis.siatac.co/portal/sharing/rest',
   HOSTED_SERVER: 'https://www.arcgis.com/sharing/rest',
+
+  SUBSECREATRIO_NOMBRE: 'DIEGO PAUL MARTÍNEZ ERASO'
 };
