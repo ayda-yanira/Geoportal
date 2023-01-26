@@ -431,8 +431,8 @@ export class ConceptoAfectacionRural {
 
     let restriccion = 'NO TIENE RESTRICCIÓN POR ESTE CONCEPTO.';
     if (riesgoVolcanico.toUpperCase().indexOf('ALTO') > -1 ||
-      remocionMasa.toUpperCase().indexOf('MEDIO') > -1 ||
-      remocionMasa.toUpperCase().indexOf('ALTO') > -1) {
+      subsidencia.toUpperCase().indexOf('MEDIO') > -1 ||
+      subsidencia.toUpperCase().indexOf('ALTO') > -1) {
       restriccion = 'TIENE RESTRICCIÓN POR ESTE CONCEPTO.';
     }
 

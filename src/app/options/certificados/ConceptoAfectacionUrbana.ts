@@ -373,8 +373,7 @@ export class ConceptoAfectacionUrbana {
     doc.setFont(undefined, 'bold');
 
     let restriccion = 'NO TIENE RESTRICCIÓN POR ESTE CONCEPTO.';
-    if (this.concatAttribute(this.obsAfectaciones, 'riesgo_volcanico_ea27').toUpperCase().indexOf('MEDIO') > -1 ||
-      this.concatAttribute(this.obsAfectaciones, 'riesgo_volcanico_ea27').toUpperCase().indexOf('ALTO') > -1 ||
+    if (this.concatAttribute(this.obsAfectaciones, 'riesgo_volcanico_ea27').toUpperCase().indexOf('ALTO') > -1 ||
       this.concatAttribute(this.obsAfectaciones, 'subsidencia_ea29').toUpperCase().indexOf('MEDIO') > -1 ||
       this.concatAttribute(this.obsAfectaciones, 'subsidencia_ea29').toUpperCase().indexOf('ALTO') > -1) {
       restriccion = 'TIENE RESTRICCIÓN POR ESTE CONCEPTO.';
