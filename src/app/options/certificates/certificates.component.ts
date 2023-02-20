@@ -558,6 +558,8 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
   }
 
   getRestriccionesActividadUrbano(listaIds: any) {
+    console.log(listaIds);
+    
     const queryParamas = new Query();
     queryParamas.returnGeometry = false;
     queryParamas.outFields = ['*'];
@@ -642,12 +644,12 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
 
           let elementos = '';
           for (const criterio of uniqueCriterios) {
-            elementos += `TIPO_ACTIVIDAD like '${criterio}%' or `
+            elementos += `TIPO_ACTIVIDAD = '${criterio}' or `
           }
 
           if (this.currentFeatures[0].attributes.codigo_morfologico_de_alturas == "Alturas reguladas en el PEMP Centro Historico"){
             for (const criterio of uniqueCriteriosPEMP) {
-              elementos += `TIPO_ACTIVIDAD like '${criterio}%' or `
+              elementos += `TIPO_ACTIVIDAD = '${criterio}' or `
             }
           }
 
@@ -657,7 +659,7 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
 
           const queryParamas = new Query();
           queryParamas.returnGeometry = false;
-          queryParamas.outFields = ['id_ciiu, tipo_actividad, compatibilidad'];
+          queryParamas.outFields = ['id_ciiu, id_tipo_actividad, tipo_actividad, compatibilidad'];
           queryParamas.returnDistinctValues = true;
           queryParamas.where = consulta;
           queryParamas.outSpatialReference = this.mapService.getViewMap().spatialReference;
@@ -668,20 +670,48 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
             .executeQueryJSON(environment.COMPATIBILIDAD_ACTIVIDAD_SERVICE, queryParamas)
             .then((results) => {
               console.log(results.features.length);
+              let idTiposActividades = '';
+
               if (results.features.length > 0) {
                 console.log(results.features);//this.main.conceptForm.value.codCiiu.id_ciiu
 
                 this.sueloUrbano.compatibilidadCiiu = [];
 
                 for (const feature of results.features) {
+                  idTiposActividades += `id_tipo_actividad = '${feature.attributes.id_tipo_actividad}' or `
+
                   this.sueloUrbano.compatibilidadCiiu.push({
                     id_ciiu: feature.attributes.id_ciiu,
+                    id_tipo_actividad: feature.attributes.id_tipo_actividad,
                     tipo_actividad: feature.attributes.tipo_actividad,
                     compatibilidad: feature.attributes.compatibilidad
                   });
                 }
 
+                idTiposActividades += `id_tipo_actividad like '1-1'`
               }
+
+              let consultaNotas = `tipo_actividad = '${this.conceptForm.value.codCiiu.id_ciiu}' and (${idTiposActividades})`; 
+              console.log(consultaNotas);
+
+              const queryNotasParams = new Query();
+              queryNotasParams.returnGeometry = false;
+              queryNotasParams.outFields = ['*'];
+              queryNotasParams.returnDistinctValues = true;
+              queryNotasParams.where = consultaNotas;
+              queryNotasParams.outSpatialReference = this.mapService.getViewMap().spatialReference;
+
+              query
+                .executeQueryJSON(environment.NOTA_USO_URBANA_SERVICE, queryNotasParams)
+                .then((results) => {
+                  console.log(results.features);
+
+                  for (const feature of results.features) {  
+                    this.sueloUrbano.notasUso.push({
+                      nota: feature.attributes.nota
+                    });
+                  }
+                });
 
               this.loading = false;
             });
@@ -707,6 +737,7 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
       criterios.push(`${feature.attributes.areas_para_la_produccion_agrico}`);
       criterios.push(`${feature.attributes.areas_inmuebles_consideradas_pa}`);
       criterios.push(`${feature.attributes.areas_del_sistema_de_servicios_}`);
+      criterios.push(`${feature.attributes.subcategoria}`);
 
       condiciones.push(`${feature.attributes.condicion_de_riesgo_alto}`);
     }
@@ -802,6 +833,8 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
         consulta = `id_ciiu = '${this.conceptForm.value.codCiiu.id_ciiu}' and id_tipo_actividad in (${this.sueloRural.idsTiposActividades})`;
       }
     }
+
+    console.log(consulta)
 
     const queryParamas = new Query();
     queryParamas.returnGeometry = false;

@@ -32,6 +32,7 @@ export class SueloUrbano {
   public restriccionesActividades = [];
   public criterios = [];
   public criteriosPEMP = [];
+  public notasUso = [];
 
   constructor(main: any) {
     this.main = main;
@@ -347,6 +348,24 @@ export class SueloUrbano {
       this.row += 8;
     } //010200670001000
 
+    this.row += 5;
+
+    if (this.notasUso.length > 0){
+      doc.setFont(undefined, 'normal');
+      doc.setFontSize(8);
+      this.addTextoJustificado(doc, this.row, 
+        "De acuerdo con la tabla 7 del documento Técnico de soporte del PEMP, las condiciones del USO DE SUELO son:");
+      this.row += 8;
+  
+      for (const item of this.notasUso) {
+        doc.setFontSize(9);
+        doc.setFont(undefined, 'normal');
+        //this.addTextoJustificadoAjusteUltimaLinea(doc, this.row, item.nota);
+        doc.text(item.nota, this.lMargin, this.row, { align: "left", maxWidth: this.pdfMaxWidth, lineHeightFactor: 1.8 });
+        this.row += 8;
+      }
+    }
+    
     if (this.row > 250) {
       this.main.addHeaders(doc, 'CONCEPTO DE USO DE SUELO');
       this.main.addFooters(doc);
