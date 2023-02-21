@@ -221,8 +221,8 @@ export class SueloUrbano {
       texto = `Conforme a lo establecido en la Resolución Número 0452 de 2012, expedido por el Ministerio de Cultura “por la cual se aprueba `
         + `el Plan Especial de Manejo y Protección del Centro Histórico - PEMP de Pasto (Nariño) y su zona de influencia, declarado bien de `
         + `interés cultural del ámbito nacional” y De acuerdo a lo establecido en el Acuerdo 004 del 14 de abril de 2015, por medio del cual `
-        + `se adopta el Plan de Ordenamiento Territorial del Municipio de Pasto 2015 - 2027  PASTO TERRITORIO CON - SENTIDO y de acuerdo al `
-        + `Plan Especial de Manejo y Protección del Centro Histórico - PEMP de Pasto (Nariño), el predio identificado con el código catastral No.: `;
+        + `se adopta el Plan de Ordenamiento Territorial del Municipio de Pasto 2015 - 2027  PASTO TERRITORIO CON - SENTIDO `
+        + `el predio identificado con el código catastral No.: `;
       
         rowAdicional = 10;
     }
@@ -275,8 +275,15 @@ export class SueloUrbano {
       this.row += 7;
     }
 
+    let visibleRestricciones = true;
     if (this.main.currentFeatures[0].attributes.codigo_morfologico_de_alturas == "Alturas reguladas en el PEMP Centro Historico"){
       for (const criterio of this.criteriosPEMP) {
+        let result = criterio.includes("PEMP");
+
+        if(result){
+          visibleRestricciones = false;
+        }
+
         this.addTextoJustificado(doc, this.row, criterio);
         this.row += 7;
       }
@@ -362,7 +369,7 @@ export class SueloUrbano {
         doc.setFont(undefined, 'normal');
         //this.addTextoJustificadoAjusteUltimaLinea(doc, this.row, item.nota);
         doc.text(item.nota, this.lMargin, this.row, { align: "left", maxWidth: this.pdfMaxWidth, lineHeightFactor: 1.8 });
-        this.row += 8;
+        this.row += 10;
       }
     }
     
@@ -382,14 +389,16 @@ export class SueloUrbano {
 
     if (id_ciiu == 5630 || id_ciiu == 4724 || id_ciiu == 4711 || id_ciiu == 0) {
       //doc.setFont(undefined, 'bold');
-      doc.setFontSize(6);
-      doc.setFont(undefined, 'bold');
-      this.addTextoJustificado(doc, this.row, "Observaciones:");
-      this.row += 5;
-      doc.setFont(undefined, 'normal');
-
+      
       if (id_ciiu == 5630 || id_ciiu == 4724) {
-        texto = "Restricciones: Los establecimientos de comercio en los cuales se realice consumo y/o venta de bebidas alcohólicas deberán dar estricto " +
+        if(visibleRestricciones){
+          doc.setFontSize(6);
+          doc.setFont(undefined, 'bold');
+          this.addTextoJustificado(doc, this.row, "Observaciones:");
+          this.row += 5;
+          doc.setFont(undefined, 'normal');
+
+          texto = "Restricciones: Los establecimientos de comercio en los cuales se realice consumo y/o venta de bebidas alcohólicas deberán dar estricto " +
           "cumplimiento a lo señalado en el artículo 306 del Plan de Ordenamiento Territorial, el cual señala: " +
           "Artículo 306. Restricciones a la implantación de usos. La implantación de nuevos establecimientos de comercio para consumo y/o venta de bebidas alcohólicas, " +
           "independiente de su denominación, queda restringida en el área de influencia de equipamientos de educación, " +
@@ -398,10 +407,17 @@ export class SueloUrbano {
           "Parágrafo. - La implantación de nuevos equipamientos de educación, atención en salud, bienestar social y recreativos, " +
           "también estará condicionada a la restricción que se establece en el presente artículo. ";
 
-        this.addTextoJustificadoAjusteUltimaLinea(doc, this.row, texto);
-        this.row += 8;
+          this.addTextoJustificadoAjusteUltimaLinea(doc, this.row, texto);
+          this.row += 8;
+        }        
       }
       else {
+        doc.setFontSize(6);
+        doc.setFont(undefined, 'bold');
+        this.addTextoJustificado(doc, this.row, "Observaciones:");
+        this.row += 5;
+        doc.setFont(undefined, 'normal');
+
         if (id_ciiu == 4711) {
           texto = "Para GRANDES SUPERFICIES se requiere estudio con base en los requerimientos de los artículos 305 y 307 del acuerdo 004 del 2015.";
           this.addTextoJustificado(doc, this.row, texto);
