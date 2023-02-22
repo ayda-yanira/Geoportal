@@ -559,7 +559,7 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
 
   getRestriccionesActividadUrbano(listaIds: any) {
     console.log(listaIds);
-    
+
     const queryParamas = new Query();
     queryParamas.returnGeometry = false;
     queryParamas.outFields = ['*'];
@@ -647,7 +647,7 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
             elementos += `TIPO_ACTIVIDAD = '${criterio}' or `
           }
 
-          if (this.currentFeatures[0].attributes.codigo_morfologico_de_alturas == "Alturas reguladas en el PEMP Centro Historico"){
+          if (this.currentFeatures[0].attributes.codigo_morfologico_de_alturas == "Alturas reguladas en el PEMP Centro Historico") {
             for (const criterio of uniqueCriteriosPEMP) {
               elementos += `TIPO_ACTIVIDAD = '${criterio}' or `
             }
@@ -691,7 +691,7 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
                 idTiposActividades += `id_tipo_actividad like '1-1'`
               }
 
-              let consultaNotas = `tipo_actividad = '${this.conceptForm.value.codCiiu.id_ciiu}' and (${idTiposActividades})`; 
+              let consultaNotas = `tipo_actividad = '${this.conceptForm.value.codCiiu.id_ciiu}' and (${idTiposActividades})`;
               console.log(consultaNotas);
 
               const queryNotasParams = new Query();
@@ -701,12 +701,14 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
               queryNotasParams.where = consultaNotas;
               queryNotasParams.outSpatialReference = this.mapService.getViewMap().spatialReference;
 
+              this.sueloUrbano.notasUso = [];
+
               query
                 .executeQueryJSON(environment.NOTA_USO_URBANA_SERVICE, queryNotasParams)
                 .then((results) => {
                   console.log(results.features);
 
-                  for (const feature of results.features) {  
+                  for (const feature of results.features) {
                     this.sueloUrbano.notasUso.push({
                       nota: feature.attributes.nota
                     });
