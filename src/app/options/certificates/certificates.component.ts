@@ -20,6 +20,9 @@ import { ConceptoNormaUrbanisticaRural } from '../certificados/ConceptoNormaUrba
 import { ConceptoNormaUrbanisticaRuralRes } from '../certificados/ConceptoNormaUrbanisticaRuralRes';
 import { ConceptoAfectacionUrbana } from '../certificados/ConceptoAfectacionUrbana';
 import { ConceptoAfectacionRural } from '../certificados/ConceptoAfectacionRural';
+import { ConceptoPerfilVial } from '../certificados/ConceptoPerfilVial';
+import { ConceptoNomenclatura } from '../certificados/ConceptoNomenclatura';
+import { ConceptoEstratificacion } from '../certificados/ConceptoEstratificacion';
 import JSZip from "jszip";
 import { saveAs } from 'file-saver';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -59,6 +62,9 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
   sueloRural: SueloRural = new SueloRural(this);
   conceptoAfectacionUrbana: ConceptoAfectacionUrbana = new ConceptoAfectacionUrbana(this);
   conceptoAfectacionRural: ConceptoAfectacionRural = new ConceptoAfectacionRural(this);
+  conceptoPerfilVial: ConceptoPerfilVial = new ConceptoPerfilVial(this);
+  conceptoNomenclatura: ConceptoNomenclatura = new ConceptoNomenclatura(this);
+  conceptoEstratificacion: ConceptoEstratificacion = new ConceptoEstratificacion(this);
 
   maxQueries: number;
   countQueries: number;
@@ -85,6 +91,9 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
       { name: 'Concepto Norma Urbanística', code: 'NU' },
       { name: 'Concepto de Uso de Suelo', code: 'US' },
       { name: 'Certificado de Riesgos y Restricciones', code: 'RR' },
+      { name: 'Concepto de Perfil Vial', code: 'PV' },
+      { name: 'Certificado de Nomenclatura', code: 'CN' },
+      { name: 'Certificado de Estratificación', code: 'CE' },
     ];
     this.ciiuItems = [];
 
@@ -309,6 +318,19 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
           this.conceptoAfectacionRuralRes.query();
         }
         break;
+      case 'PV':
+        if (this.featureType === 'URBANO') {
+          this.conceptoPerfilVial.query();
+        } else {
+          this.conceptoPerfilVial.query();
+        }
+        break;
+      case 'CN':
+        this.conceptoNomenclatura.query();
+        break;
+      case 'CE':
+        this.conceptoEstratificacion.query();
+        break;
     }
   }
 
@@ -393,6 +415,25 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
             this.downloadFile(blobPDF, `Certificado de Riesgos y Restricciones Rural ${this.printCode}.pdf`);
           }
         }
+        break;
+      case 'PV':
+        if (this.featureType === 'URBANO') {
+          const blobPDF = this.conceptoPerfilVial.download();
+          this.downloadFile(blobPDF, `Concepto de Perfil Vial ${this.printCode}.pdf`);
+        } else {
+          const blobPDF = this.conceptoPerfilVial.download();
+          this.downloadFile(blobPDF, `Concepto de Perfil Vial ${this.printCode}.pdf`);
+        }
+        this.currentFeatures = null;
+        this.conceptForm.controls.codCiiu.reset();
+        break;
+      case 'CN':
+        const blobPDF = this.conceptoNomenclatura.download();
+        this.downloadFile(blobPDF, `Certificado de Nomenclatura ${this.printCode}.pdf`);
+        break;
+      case 'CE':
+        const blobPDFE = this.conceptoEstratificacion.download();
+        this.downloadFile(blobPDFE, `Certificado de Estratificacion ${this.printCode}.pdf`);
     }
     this.messageService.clear();
     this.messageService.add({
@@ -644,16 +685,16 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
 
           let elementos = '';
           for (const criterio of uniqueCriterios) {
-            elementos += `TIPO_ACTIVIDAD = '${criterio}' or `
+            elementos += `TIPO_ACTIVIDAD like '%${criterio}%' or `
           }
 
           if (this.currentFeatures[0].attributes.codigo_morfologico_de_alturas == "Alturas reguladas en el PEMP Centro Historico") {
             for (const criterio of uniqueCriteriosPEMP) {
-              elementos += `TIPO_ACTIVIDAD = '${criterio}' or `
+              elementos += `TIPO_ACTIVIDAD like '%${criterio}%' or `
             }
           }
 
-          elementos += `TIPO_ACTIVIDAD like '1-1'`
+          elementos += `TIPO_ACTIVIDAD like '1=1'`
 
           let consulta = `id_ciiu = '${this.conceptForm.value.codCiiu.id_ciiu}' and (${elementos})`;
 
@@ -671,11 +712,10 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
             .then((results) => {
               console.log(results.features.length);
               let idTiposActividades = '';
+              this.sueloUrbano.compatibilidadCiiu = [];
 
               if (results.features.length > 0) {
                 console.log(results.features);//this.main.conceptForm.value.codCiiu.id_ciiu
-
-                this.sueloUrbano.compatibilidadCiiu = [];
 
                 for (const feature of results.features) {
                   idTiposActividades += `id_tipo_actividad = '${feature.attributes.id_tipo_actividad}' or `
@@ -799,6 +839,8 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
       .executeQueryJSON(environment.COMPATIBILIDAD_ACTIVIDAD_SERVICE, queryParamas)
       .then((results) => {
         console.log(results.features.length);
+        this.sueloRural.compatibilidadCiiu = [];
+
         if (results.features.length > 0) {
           console.log(results.features);//this.main.conceptForm.value.codCiiu.id_ciiu
 
@@ -806,8 +848,6 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
             console.log(this.featureType);
 
           } else {
-            this.sueloRural.compatibilidadCiiu = [];
-
             for (const feature of results.features) {
               this.sueloRural.compatibilidadCiiu.push({
                 id_ciiu: feature.attributes.id_ciiu,
@@ -848,13 +888,14 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
     query
       .executeQueryJSON(environment.COMPATIBILIDAD_ACTIVIDAD_SERVICE, queryParamas)
       .then((results) => {
+        this.sueloUrbano.compatibilidadCiiu = [];
+        this.sueloRural.compatibilidadCiiu = [];
+
         if (results.features.length > 0) {
           this.ciiuItems = [];
           const idsCodigosCiiu = [];
 
           if (this.featureType === 'URBANO') {
-            this.sueloUrbano.compatibilidadCiiu = [];
-
             for (const feature of results.features) {
               idsCodigosCiiu.push(`'${feature.attributes.id_ciiu}'`);
 
@@ -865,8 +906,6 @@ export class CertificatesComponent implements AfterViewInit, OnDestroy {
               });
             }
           } else {
-            this.sueloRural.compatibilidadCiiu = [];
-
             for (const feature of results.features) {
               idsCodigosCiiu.push(`'${feature.attributes.id_ciiu}'`);
 

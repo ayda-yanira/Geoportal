@@ -30,9 +30,11 @@ export const environment = {
   NOTA_USO_URBANA_SERVICE: 'https://geoportal.pasto.gov.co/server/rest/services/Planeacion/Norma_Urbanistica_Riesgo_Suelo/MapServer/18',
   TIPO_EQUIPAMIENTOS: 'https://geoportal.pasto.gov.co/server/rest/services/Planeacion/Norma_Urbanistica_Riesgo_Suelo/MapServer/7',
   AREA_ACTIVIDAD_URBANA_SERVICE: 'https://geoportal.pasto.gov.co/server/rest/services/Planeacion/Norma_Urbanistica_Riesgo_Suelo/MapServer/28',
+  PERFIL_VIAL_SERVICE: 'https://geoportal.pasto.gov.co/server/rest/services/Planeacion/Perfil_Vial/MapServer/4',
   LINK_NORMA_URBANISTICA: 'https://planeacion.pasto.gov.co:8989/solicitudes_urbanistica/createUrbanistica',
   LINK_USO_SUELO: 'https://planeacion.pasto.gov.co:8989/solicitudes_usosuelo/createUsosuelo',
   LINK_RIEGOS_RESTRICCIONES: 'https://planeacion.pasto.gov.co:8989/solicitudes_riesgos/createRiesgos',
+  NOMENCLATURA_SEVICE: 'https://geoportal.pasto.gov.co/server/rest/services/Planeacion/Estratificacion/MapServer/1',
 
   SERVICIO_IMPRESION: 'https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task',
   PORTAL_URL: 'https://gis.siatac.co/portal/sharing/rest',
